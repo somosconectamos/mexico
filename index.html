@@ -272,6 +272,29 @@
   .opt-tl .tl-n{background:#fff;border:1px dashed #e0b896}
   .nights.opt-badge{background:#fff;color:var(--orange);border:1px solid #ffc9a8}
   @media (max-width:480px){.eyebrow{font-size:11.5px;letter-spacing:.04em}}
+  .qual{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);display:none;align-items:flex-end;justify-content:center;padding:0}
+  .qual.open{display:flex}
+  .qbox{position:relative;background:#fff;width:100%;max-width:520px;max-height:92vh;overflow:auto;border-radius:24px 24px 0 0;padding:28px 22px 22px;animation:qup .25s ease}
+  @media (min-width:640px){.qual{align-items:center}.qbox{border-radius:24px;padding:32px}}
+  @keyframes qup{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
+  .qbox h3{font-size:28px;text-transform:lowercase;line-height:1.05;margin-bottom:6px}
+  .qsub{color:var(--grey);font-size:15px;margin-bottom:18px}
+  .qx{position:absolute;top:14px;right:16px;border:0;background:var(--sand);width:36px;height:36px;border-radius:50%;font-size:22px;line-height:1;cursor:pointer;color:#333}
+  .qlabel{font-weight:700;font-size:15px;margin:16px 0 8px;display:block}
+  .qinput{width:100%;font:inherit;font-size:16px;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;outline:none}
+  .qinput:focus{border-color:var(--orange)}
+  .qopts{display:flex;flex-wrap:wrap;gap:8px}
+  .qopts label{cursor:pointer}
+  .qopts input{position:absolute;opacity:0;pointer-events:none}
+  .qopts span{display:inline-block;padding:10px 15px;border:1.5px solid var(--line);border-radius:999px;font-size:14.5px;font-weight:600;transition:.15s}
+  .qopts input:checked+span{background:var(--orange);border-color:var(--orange);color:#fff}
+  .qopts input:focus-visible+span{outline:2px solid var(--orange);outline-offset:2px}
+  .qchecks{margin:20px 0 18px;display:grid;gap:10px}
+  .qchecks label{display:flex;gap:12px;align-items:flex-start;background:var(--orange-soft);border-radius:14px;padding:13px 14px;font-size:14.5px;cursor:pointer;line-height:1.4}
+  .qchecks input{width:20px;height:20px;flex:0 0 20px;margin-top:1px;accent-color:var(--orange)}
+  .q-send{width:100%}
+  .q-send:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+  .qfine{text-align:center;font-size:12.5px;color:var(--grey);margin-top:10px}
 </style>
 <!-- Meta Pixel: pegar el ID entre las comillas de PIXEL_ID -->
 <script>
@@ -514,6 +537,41 @@
     <a href="https://somosconectamos.com">somosconectamos.com</a> · <a href="https://www.instagram.com/somosconectamos/">@somosconectamos</a> · <a href="https://www.instagram.com/somosconectamosviajes/">@somosconectamosviajes</a></div>
 </footer>
 
+<div class="qual" id="qual" role="dialog" aria-modal="true" aria-labelledby="qtitle">
+  <form class="qbox" id="qform" novalidate>
+    <button type="button" class="qx" data-close aria-label="Cerrar">×</button>
+    <div class="kicker">antes de escribirme</div>
+    <h3 id="qtitle">contame un poco de vos</h3>
+    <p class="qsub">Así te respondo más rápido y con lo que necesitás.</p>
+    <label class="qlabel" for="qn">¿Cómo te llamás?</label>
+    <input id="qn" name="nombre" class="qinput" type="text" autocomplete="given-name" placeholder="Tu nombre">
+    <div class="qlabel">¿Cuándo pensás señar?</div>
+    <div class="qopts">
+      <label><input type="radio" name="sena" value="semana"><span>Esta semana</span></label>
+      <label><input type="radio" name="sena" value="mes"><span>Este mes</span></label>
+      <label><input type="radio" name="sena" value="averiguando"><span>Estoy averiguando</span></label>
+    </div>
+    <div class="qlabel">¿Qué edad tenés?</div>
+    <div class="qopts">
+      <label><input type="radio" name="edad" value="25 a 30"><span>25–30</span></label>
+      <label><input type="radio" name="edad" value="31 a 40"><span>31–40</span></label>
+      <label><input type="radio" name="edad" value="41 a 50"><span>41–50</span></label>
+      <label><input type="radio" name="edad" value="otra edad"><span>Otra</span></label>
+    </div>
+    <div class="qlabel">¿Venís con alguien o te sumás por tu cuenta?</div>
+    <div class="qopts">
+      <label><input type="radio" name="con" value="solo"><span>Por mi cuenta</span></label>
+      <label><input type="radio" name="con" value="acompanado"><span>Con alguien</span></label>
+    </div>
+    <div class="qchecks">
+      <label><input type="checkbox" name="vuelos"><span><b>Sé que el precio no incluye vuelos.</b> Te ayudan a sacarlos, pero se pagan aparte.</span></label>
+      <label><input type="checkbox" name="estilo"><span><b>Es un viaje de playa, fiesta &amp; hostel</b>, con habitaciones compartidas de hasta 4 personas, y me copa.</span></label>
+    </div>
+    <button type="submit" class="btn primary q-send" disabled>Seguir a WhatsApp</button>
+    <p class="qfine">Se abre WhatsApp con tus respuestas ya escritas.</p>
+  </form>
+</div>
+
 <div class="stick" id="stick" aria-hidden="true">
   <div class="p">Quedan 4 cupos<b>4 × USD 200</b></div>
   <a class="btn wa-link" href="#" tabindex="-1">
@@ -526,9 +584,27 @@
   var WHATSAPP = "5491178864029";
   var MENSAJE = "Hola Marti! Vi la página del viaje grupal a México (marzo 2027) y tengo una consulta";
   // ==================
-  var url = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(MENSAJE);
-  document.querySelectorAll(".wa-link").forEach(function(a){ a.href = url; a.target = "_blank"; a.rel = "noopener";
-    a.addEventListener("click", function(){ try{ if(window.fbq) fbq("track","Contact",{content_name:"Viaje grupal Mexico 2027"}); }catch(e){} });
+  var WA = "https://wa.me/" + WHATSAPP + "?text=";
+  var dlg = document.getElementById("qual"), qf = document.getElementById("qform");
+  function openQ(e){ if(e) e.preventDefault(); dlg.classList.add("open"); document.body.style.overflow="hidden"; try{ if(window.fbq) fbq("trackCustom","AbrioFormulario"); }catch(_){} setTimeout(function(){ var f=qf.querySelector("input"); if(f) f.focus(); },50); }
+  function closeQ(){ dlg.classList.remove("open"); document.body.style.overflow=""; }
+  document.querySelectorAll(".wa-link").forEach(function(a){ a.href = "#reservar"; a.removeAttribute("target"); a.addEventListener("click", openQ); });
+  dlg.addEventListener("click", function(e){ if(e.target===dlg || e.target.closest("[data-close]")) closeQ(); });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape") closeQ(); });
+  function val(n){ var c=qf.querySelector('input[name="'+n+'"]:checked'); return c?c.value:""; }
+  function check(){
+    var ok = qf.nombre.value.trim().length>1 && val("sena") && val("edad") && val("con") && qf.vuelos.checked && qf.estilo.checked;
+    qf.querySelector(".q-send").disabled = !ok;
+  }
+  qf.addEventListener("input", check); qf.addEventListener("change", check); check();
+  qf.addEventListener("submit", function(e){
+    e.preventDefault(); if(qf.querySelector(".q-send").disabled) return;
+    var sena=val("sena"), edad=val("edad"), con=val("con"), nombre=qf.nombre.value.trim();
+    var senaTxt = {semana:"puedo señar esta semana", mes:"puedo señar este mes", averiguando:"por ahora estoy averiguando"}[sena];
+    var conTxt = con==="solo" ? "voy por mi cuenta" : "voy con alguien más";
+    var msg = "Hola Marti! Soy " + nombre + ". Quiero ir a México del 1 al 10/3. Tengo " + edad + " años, " + senaTxt + " y " + conTxt + ". Ya leí que no incluye vuelos y que es playa, fiesta & hostel.";
+    try{ if(window.fbq){ if(sena==="averiguando") fbq("track","Contact",{content_name:"Viaje grupal Mexico 2027"}); else fbq("track","Lead",{content_name:"Viaje grupal Mexico 2027", value:800, currency:"USD"}); } }catch(_){}
+    setTimeout(function(){ window.location.href = WA + encodeURIComponent(msg); }, 250);
   });
 
   var bar=document.getElementById("bar"), stick=document.getElementById("stick"), pr=document.getElementById("precio"), fin=document.querySelector(".final");
