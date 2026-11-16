@@ -558,14 +558,9 @@
       <label><input type="radio" name="edad" value="41 a 50"><span>41–50</span></label>
       <label><input type="radio" name="edad" value="otra edad"><span>Otra</span></label>
     </div>
-    <div class="qlabel">¿Venís con alguien o te sumás por tu cuenta?</div>
-    <div class="qopts">
-      <label><input type="radio" name="con" value="solo"><span>Por mi cuenta</span></label>
-      <label><input type="radio" name="con" value="acompanado"><span>Con alguien</span></label>
-    </div>
     <div class="qchecks">
       <label><input type="checkbox" name="vuelos"><span><b>Sé que el precio no incluye vuelos.</b> Te ayudan a sacarlos, pero se pagan aparte.</span></label>
-      <label><input type="checkbox" name="estilo"><span><b>Es un viaje de playa, fiesta &amp; hostel</b>, con habitaciones compartidas de hasta 4 personas, y me copa.</span></label>
+      <label><input type="checkbox" name="estilo"><span><b>Es un viaje de playa, fiesta &amp; hostel</b> para sumarme por mi cuenta y conocer gente nueva, con habitaciones compartidas de hasta 4 personas, y me copa.</span></label>
     </div>
     <button type="submit" class="btn primary q-send" disabled>Seguir a WhatsApp</button>
     <p class="qfine">Se abre WhatsApp con tus respuestas ya escritas.</p>
@@ -593,16 +588,15 @@
   document.addEventListener("keydown", function(e){ if(e.key==="Escape") closeQ(); });
   function val(n){ var c=qf.querySelector('input[name="'+n+'"]:checked'); return c?c.value:""; }
   function check(){
-    var ok = qf.nombre.value.trim().length>1 && val("sena") && val("edad") && val("con") && qf.vuelos.checked && qf.estilo.checked;
+    var ok = qf.nombre.value.trim().length>1 && val("sena") && val("edad") && qf.vuelos.checked && qf.estilo.checked;
     qf.querySelector(".q-send").disabled = !ok;
   }
   qf.addEventListener("input", check); qf.addEventListener("change", check); check();
   qf.addEventListener("submit", function(e){
     e.preventDefault(); if(qf.querySelector(".q-send").disabled) return;
-    var sena=val("sena"), edad=val("edad"), con=val("con"), nombre=qf.nombre.value.trim();
+    var sena=val("sena"), edad=val("edad"), nombre=qf.nombre.value.trim();
     var senaTxt = {semana:"puedo señar esta semana", mes:"puedo señar este mes", averiguando:"por ahora estoy averiguando"}[sena];
-    var conTxt = con==="solo" ? "voy por mi cuenta" : "voy con alguien más";
-    var msg = "Hola Marti! Soy " + nombre + ". Quiero ir a México del 1 al 10/3. Tengo " + edad + " años, " + senaTxt + " y " + conTxt + ". Ya leí que no incluye vuelos y que es playa, fiesta & hostel.";
+    var msg = "Hola Marti! Soy " + nombre + ". Quiero ir a México del 1 al 10/3. Tengo " + edad + " años y " + senaTxt + ". Ya leí que no incluye vuelos y que es playa, fiesta & hostel para sumarme por mi cuenta.";
     try{ if(window.fbq){ if(sena==="averiguando") fbq("track","Contact",{content_name:"Viaje grupal Mexico 2027"}); else fbq("track","Lead",{content_name:"Viaje grupal Mexico 2027", value:800, currency:"USD"}); } }catch(_){}
     setTimeout(function(){ window.location.href = WA + encodeURIComponent(msg); }, 250);
   });
